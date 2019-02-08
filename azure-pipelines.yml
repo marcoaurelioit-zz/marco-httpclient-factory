@@ -16,7 +16,7 @@ variables:
 
   ##Marco.Http.Client.AspNetCore
   Pack1Version: '1.0.0'
-  Pack1PushToNuget: True
+  Pack1PushToNuget: False
 
 steps:
 # Install NuGet Tool
