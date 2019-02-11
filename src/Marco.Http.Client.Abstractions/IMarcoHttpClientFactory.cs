@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Marco.Http.Client.AspNetCore.Abstractions
+namespace Marco.Http.Client.Abstractions
 {
     public interface IMarcoHttpClientFactory
     {
