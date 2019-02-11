@@ -15,8 +15,12 @@ variables:
   buildConfiguration: 'Release'
 
   ##Marco.Http.Client.AspNetCore
-  Pack1Version: '1.3.0'
+  Pack1Version: '1.4.0'
   Pack1PushToNuget: True
+
+##Marco.Http.Client.Abstractions
+  Pack2Version: '1.4.0'
+  Pack2PushToNuget: True
 
 steps:
 # Install NuGet Tool
@@ -50,7 +54,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: False
-    projects: '**/**/Marco.Http.Client.AspNetCore.csproj'
+    projects: '**/**/Marco.*.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: False
 
@@ -76,3 +80,22 @@ steps:
     nuGetFeedType: external
     packagesToPush: '$(build.artifactStagingDirectory)/Marco.Http.Client.AspNetCore.*.nupkg'
     publishFeedCredentials: 'apikey-nuget-marco-httpclient-factory'
+
+# Publish Marco.Http.Client.Abstractions to NuGet.org
+- task: DotNetCoreCLI@2
+  displayName: Pack Marco.Http.Client.Abstractions
+  condition: eq(variables['Pack2PushToNuget'], 'True')
+  inputs:
+    command: pack
+    packagesToPack: '**/**/Marco.Http.Client.Abstractions.csproj'
+    versioningScheme: byEnvVar
+    versionEnvVar: Pack2Version
+- task: NuGetCommand@2
+  displayName: Push Marco.Http.Client.Abstractions to NuGet.org
+  condition: eq(variables['Pack2PushToNuget'], 'True')
+  continueOnError: True
+  inputs:
+    command: push
+    nuGetFeedType: external
+    packagesToPush: '$(build.artifactStagingDirectory)/Marco.Http.Client.Abstractions.*.nupkg'
+    publishFeedCredentials: 'apikey-nuget-marco-httpclient-factory-abstractions'
