@@ -1,4 +1,4 @@
-﻿using Marco.Http.Client.Abstractions;
+﻿using Marco.Http.Client.AspNetCore.Abstractions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Net.Http;

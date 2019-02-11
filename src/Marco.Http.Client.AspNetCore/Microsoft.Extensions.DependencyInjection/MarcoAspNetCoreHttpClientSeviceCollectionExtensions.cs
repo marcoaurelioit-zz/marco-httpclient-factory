@@ -1,5 +1,5 @@
-﻿using Marco.Http.Client.Abstractions;
-using Marco.Http.Client.AspNetCore;
+﻿using Marco.Http.Client.AspNetCore;
+using Marco.Http.Client.AspNetCore.Abstractions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
