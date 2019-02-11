@@ -14,8 +14,8 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-  ##Marco.Http.Client.Abstractions
-  Pack1Version: '1.0.0'
+  ##Marco.Http.Client.AspNetCore
+  Pack1Version: '1.2.0'
   Pack1PushToNuget: True
 
 steps:
@@ -50,7 +50,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: False
-    projects: '**/**/Marco.Http.Client.Abstractions.csproj'
+    projects: '**/**/Marco.Http.Client.AspNetCore.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: False
 
@@ -58,21 +58,21 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifacts
 
-# Publish Marco.Logger to NuGet.org
+# Publish Marco.Http.Client.AspNetCore to NuGet.org
 - task: DotNetCoreCLI@2
-  displayName: Pack Marco.Http.Client.Abstractions
+  displayName: Pack Marco.Http.Client.AspNetCore
   condition: eq(variables['Pack1PushToNuget'], 'True')
   inputs:
     command: pack
-    packagesToPack: '**/**/Marco.Http.Client.Abstractions.csproj'
+    packagesToPack: '**/**/Marco.Http.Client.AspNetCore.csproj'
     versioningScheme: byEnvVar
-    versionEnvVar: Pack2Version
+    versionEnvVar: Pack1Version
 - task: NuGetCommand@2
-  displayName: Push Marco.Http.Client.Abstractions to NuGet.org
+  displayName: Push Marco.Http.Client.AspNetCore to NuGet.org
   condition: eq(variables['Pack1PushToNuget'], 'True')
   continueOnError: True
   inputs:
     command: push
     nuGetFeedType: external
-    packagesToPush: '$(build.artifactStagingDirectory)/Marco.Http.Client.Abstractions.*.nupkg'
+    packagesToPush: '$(build.artifactStagingDirectory)/Marco.Http.Client.AspNetCore.*.nupkg'
     publishFeedCredentials: 'apikey-nuget-marco-httpclient-factory'
