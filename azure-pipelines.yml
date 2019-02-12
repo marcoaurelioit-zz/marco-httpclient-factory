@@ -99,13 +99,3 @@ steps:
     nuGetFeedType: external
     packagesToPush: '$(build.artifactStagingDirectory)/Marco.Http.Client.Abstractions.*.nupkg'
     publishFeedCredentials: 'apikey-nuget-marco-httpclient-factory-abstractions'
-    
-# Create Release
-- task: GitHubRelease@0
-  displayName: 'Edit GitHub Release'
-  inputs:
-    gitHubConnection: marcoaurelioit
-    repositoryName: marcoaurelioit/marco-httpclient-factory
-    action: Create
-    tag: Pack1Version
-    assets: $(Build.ArtifactStagingDirectory)/distributableBinaries/*
